@@ -1,0 +1,16 @@
+{
+  "name": "tmobile-upgrade-tracker-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Convenience runner for the three upgrade-tracker microservices",
+  "scripts": {
+    "install:all": "npm --prefix account-service install && npm --prefix device-service install && npm --prefix upgrade-service install",
+    "start:account": "npm --prefix account-service start",
+    "start:device": "npm --prefix device-service start",
+    "start:upgrade": "npm --prefix upgrade-service start",
+    "dev": "concurrently -n account,device,upgrade -c magenta,cyan,green \"npm --prefix account-service run dev\" \"npm --prefix device-service run dev\" \"npm --prefix upgrade-service run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
