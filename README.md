@@ -322,7 +322,34 @@ S22, Samsung Galaxy S21, Google Pixel 7.
 
 ## Deployment
 
-### Frontend → Vercel
+### Option A (used for the live demo): Single Vercel project
+
+The whole app — React frontend **and** all three services — is deployed as one
+Vercel project. The services run as serverless functions in `frontend/api/`,
+sharing the deployment origin (so no CORS configuration is needed):
+
+| Route                              | Function file                                  |
+| ---------------------------------- | ---------------------------------------------- |
+| `GET  /api/account/:id`            | `frontend/api/account/[id].js`                 |
+| `GET  /api/device/eligibility/:id` | `frontend/api/device/eligibility/[id].js`      |
+| `GET  /api/device/tradein/:model`  | `frontend/api/device/tradein/[model].js`       |
+| `POST /api/upgrade/submit`         | `frontend/api/upgrade/submit.js`               |
+
+`frontend/.env.production` points every `VITE_*_API_URL` at `/api`, so the
+build is self-configuring. Deploy with:
+
+```bash
+cd frontend
+vercel --prod        # set "Root Directory" = frontend if prompted
+```
+
+> The `/backend` Express services remain the canonical "run as 3 independent
+> microservices locally" implementation; the `frontend/api` functions are the
+> same logic packaged for a single-project Vercel deploy. The in-memory upgrade
+> list is best-effort on serverless (the submit → confirmation flow always
+> works).
+
+### Option B: Frontend on Vercel + backends on Render/Railway
 
 1. Push this repo to GitHub.
 2. In Vercel, **New Project → Import** the repo.
