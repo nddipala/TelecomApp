@@ -6,3 +6,6 @@ dist
 .DS_Store
 .idea/
 .vscode/
+
+# Demo source recordings (keep .mp4 only)
+*.webm
